@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="grainGrowth.controller.MainViewController">
+    <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox>
+            <ScrollPane minViewportHeight="900.0" minViewportWidth="1024.0" prefHeight="200.0" prefWidth="200.0">
+            <content>
+                     <Canvas fx:id="canvas" height="500.0" width="495.0" />
+            </content>
+            <VBox.margin>
+               <Insets right="5.0" />
+            </VBox.margin>
+            </ScrollPane>
+        </VBox>
+        <VBox alignment="BOTTOM_LEFT" prefHeight="512.0" prefWidth="200.0">
+         <VBox prefHeight="811.0" prefWidth="200.0">
+            <children>
+                  <MenuBar fx:id="menuBar">
+                      <Menu mnemonicParsing="false" text="File">
+                          <MenuItem mnemonicParsing="false" onAction="#loadSpace" text="Import" />
+                          <MenuItem mnemonicParsing="false" onAction="#saveSpace" text="Export" />
+                      </Menu>
+                  </MenuBar>
+            </children>
+         </VBox>
+            <HBox prefHeight="36.0" prefWidth="200.0">
+                <Label alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="49.0" text="X: " />
+                <TextField prefHeight="26.0" prefWidth="100.0" fx:id="xSizeTextField" />
+                <Label alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="65.0" text="Y: " />
+                <TextField fx:id="ySizeTextField" prefHeight="26.0" prefWidth="100.0" />
+            </HBox>
+            <Button fx:id="initializeButton" mnemonicParsing="false" onAction="#initializeEmptySpace" prefHeight="31.0" prefWidth="224.0" text="Change size/clear">
+                <VBox.margin>
+                    <Insets />
+                </VBox.margin>
+            </Button>
+         <HBox prefHeight="30.0" prefWidth="200.0">
+            <children>
+                  <Label alignment="CENTER" prefHeight="18.0" prefWidth="111.0" text="Number of grains" />
+                  <TextField fx:id="nucleonsNumberTextField" alignment="CENTER" prefHeight="25.0" prefWidth="67.0" />
+            </children>
+            <VBox.margin>
+               <Insets top="5.0" />
+            </VBox.margin>
+         </HBox>
+         <HBox prefHeight="31.0" prefWidth="200.0">
+            <children>
+                  <Button fx:id="addGrainsButton" mnemonicParsing="false" onAction="#generateNucleons" prefHeight="26.0" prefWidth="282.0" text="Add grains">
+                  <HBox.margin>
+                     <Insets right="5.0" />
+                  </HBox.margin>
+                  </Button>
+                  <Button fx:id="growthButton" mnemonicParsing="false" onAction="#performGrainGrowth" prefHeight="26.0" prefWidth="288.0" text="Growth">
+                  <HBox.margin>
+                     <Insets left="5.0" />
+                  </HBox.margin>
+                  </Button>
+            </children>
+         </HBox>
+        </VBox>
+    </HBox>
+</AnchorPane>
