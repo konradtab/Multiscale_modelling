@@ -40,5 +40,4 @@ public class NucleonsGenerator {
         }
         return freeCellCoords;
     }
-
 }

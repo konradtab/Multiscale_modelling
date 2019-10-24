@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -16,7 +17,7 @@
 <AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="grainGrowth.controller.MainViewController">
     <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <VBox>
-            <ScrollPane minViewportHeight="900.0" minViewportWidth="1024.0" prefHeight="200.0" prefWidth="200.0">
+            <ScrollPane minViewportHeight="650.0" minViewportWidth="1024.0" prefHeight="200.0" prefWidth="200.0">
             <content>
                      <Canvas fx:id="canvas" height="500.0" width="495.0" />
             </content>
@@ -26,7 +27,7 @@
             </ScrollPane>
         </VBox>
         <VBox alignment="BOTTOM_LEFT" prefHeight="512.0" prefWidth="200.0">
-         <VBox prefHeight="811.0" prefWidth="200.0">
+         <VBox prefHeight="415.0" prefWidth="200.0">
             <children>
                   <MenuBar fx:id="menuBar">
                       <Menu mnemonicParsing="false" text="File">
@@ -36,18 +37,73 @@
                   </MenuBar>
             </children>
          </VBox>
-            <HBox prefHeight="36.0" prefWidth="200.0">
-                <Label alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="49.0" text="X: " />
+         <HBox prefHeight="21.0" prefWidth="200.0">
+            <children>
+               <Label text="Number of inclusions">
+                  <HBox.margin>
+                     <Insets left="5.0" top="2.0" />
+                  </HBox.margin>
+               </Label>
+               <TextField fx:id="inclusionTextField" prefHeight="25.0" prefWidth="65.0">
+                  <HBox.margin>
+                     <Insets left="5.0" right="5.0" />
+                  </HBox.margin>
+               </TextField>
+            </children>
+         </HBox>
+         <HBox prefHeight="17.0" prefWidth="200.0">
+            <children>
+               <Label text="Inclusions size">
+                  <HBox.margin>
+                     <Insets left="5.0" />
+                  </HBox.margin>
+               </Label>
+               <TextField fx:id="inclusionSizeTextField" prefHeight="25.0" prefWidth="65.0">
+                  <HBox.margin>
+                     <Insets left="41.0" />
+                  </HBox.margin>
+               </TextField>
+            </children>
+            <VBox.margin>
+               <Insets top="5.0" />
+            </VBox.margin>
+         </HBox>
+         <HBox prefHeight="17.0" prefWidth="200.0">
+            <children>
+               <Label text="Type">
+                  <HBox.margin>
+                     <Insets left="5.0" right="5.0" />
+                  </HBox.margin>
+               </Label>
+               <ComboBox fx:id="inclusionTypeComboBox" prefWidth="150.0" />
+            </children>
+            <VBox.margin>
+               <Insets top="5.0" />
+            </VBox.margin>
+         </HBox>
+         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="142.0" text="Add inclusions">
+            <VBox.margin>
+               <Insets bottom="5.0" top="5.0" />
+            </VBox.margin>
+         </Button>
+            <HBox prefHeight="11.0" prefWidth="200.0">
+                <Label alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="49.0" text="X: ">
+               <HBox.margin>
+                  <Insets top="2.0" />
+               </HBox.margin></Label>
                 <TextField prefHeight="26.0" prefWidth="100.0" fx:id="xSizeTextField" />
-                <Label alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="65.0" text="Y: " />
+                <Label alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="65.0" text="Y: ">
+               <HBox.margin>
+                  <Insets top="2.0" />
+               </HBox.margin></Label>
                 <TextField fx:id="ySizeTextField" prefHeight="26.0" prefWidth="100.0" />
             </HBox>
             <Button fx:id="initializeButton" mnemonicParsing="false" onAction="#initializeEmptySpace" prefHeight="31.0" prefWidth="224.0" text="Change size/clear">
                 <VBox.margin>
-                    <Insets />
+                    <Insets top="5.0" />
                 </VBox.margin>
             </Button>
-         <HBox prefHeight="30.0" prefWidth="200.0">
+         <HBox prefHeight="23.0" prefWidth="200.0">
             <children>
                   <Label alignment="CENTER" prefHeight="18.0" prefWidth="111.0" text="Number of grains" />
                   <TextField fx:id="nucleonsNumberTextField" alignment="CENTER" prefHeight="25.0" prefWidth="67.0" />
@@ -58,7 +114,7 @@
          </HBox>
          <HBox prefHeight="31.0" prefWidth="200.0">
             <children>
-                  <Button fx:id="addGrainsButton" mnemonicParsing="false" onAction="#generateNucleons" prefHeight="26.0" prefWidth="282.0" text="Add grains">
+                  <Button fx:id="addGrainsButton" mnemonicParsing="false" onAction="#addGrains" prefHeight="26.0" prefWidth="282.0" text="Add grains">
                   <HBox.margin>
                      <Insets right="5.0" />
                   </HBox.margin>
@@ -69,6 +125,9 @@
                   </HBox.margin>
                   </Button>
             </children>
+            <VBox.margin>
+               <Insets bottom="5.0" top="5.0" />
+            </VBox.margin>
          </HBox>
         </VBox>
     </HBox>

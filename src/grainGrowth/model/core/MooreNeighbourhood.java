@@ -6,10 +6,10 @@ import java.util.List;
 
 public class MooreNeighbourhood {
 
-    private AbsorbentBoundaryCondition boundaryCondition;
+    private BoundaryCondition boundaryCondition;
 
 
-    public MooreNeighbourhood(AbsorbentBoundaryCondition boundaryCondition) {
+    public MooreNeighbourhood(BoundaryCondition boundaryCondition) {
         this.boundaryCondition = boundaryCondition;
     }
 

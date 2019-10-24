@@ -1,9 +1,7 @@
 package grainGrowth.controller;
 
 import grainGrowth.model.GrainGrowth;
-import grainGrowth.model.core.Coords;
-import grainGrowth.model.core.NucleonsGenerator;
-import grainGrowth.model.core.Space;
+import grainGrowth.model.core.*;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,6 +9,7 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
 import javafx.scene.image.WritableImage;
@@ -31,7 +30,6 @@ public class MainViewController implements Initializable {
 
     @FXML
     private Canvas canvas;
-    private final int cellSize = 2;
     @FXML
     private TextField xSizeTextField;
     @FXML
@@ -46,13 +44,23 @@ public class MainViewController implements Initializable {
     private Button growthButton;
     @FXML
     private MenuBar menuBar;
+    @FXML
+    private TextField inclusionTextField;
+    @FXML
+    private TextField inclusionSizeTextField;
+    @FXML
+    private ComboBox<InclusionType> inclusionTypeComboBox;
 
+    private final int cellSize = 2;
     private int xSize;
     private int ySize;
     private int nucleonsNumber;
     private final Map<Integer, Color> colorById = new HashMap<>();
     private Space space;
     private FileChooser fileChooser;
+    private int inclusionsNumber;
+    private int inclusionSize;
+    private InclusionType inclusionType;
 
     public void initializeEmptySpace() {
         xSize = Integer.parseInt(xSizeTextField.getText());
@@ -67,7 +75,13 @@ public class MainViewController implements Initializable {
     }
 
 
-    public void generateNucleons() {
+    public void addInclusions(){
+        inclusionsNumber = Integer.parseInt(inclusionTextField.getText());
+        inclusionSize = Integer.parseInt(inclusionSizeTextField.getText());
+        inclusionType = inclusionTypeComboBox.getValue();
+    }
+
+    public void addGrains() {
         nucleonsNumber = Integer.parseInt(nucleonsNumberTextField.getText());
         NucleonsGenerator.putNucleonsRandomly(nucleonsNumber, space);
         draw();

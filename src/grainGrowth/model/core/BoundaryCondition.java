@@ -1,13 +1,13 @@
 package grainGrowth.model.core;
 
 
-public class AbsorbentBoundaryCondition {
+public class BoundaryCondition {
 
     private int sizeX;
     private int sizeY;
 
 
-    public AbsorbentBoundaryCondition(int sizeX, int sizeY) {
+    public BoundaryCondition(int sizeX, int sizeY) {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
     }

@@ -16,13 +16,18 @@ public class Space {
 
 
     public Space(int sizeX, int sizeY) {
-        mooreNeighbourHood = new MooreNeighbourhood(new AbsorbentBoundaryCondition(sizeX, sizeY));
+        mooreNeighbourHood = new MooreNeighbourhood(new BoundaryCondition(sizeX, sizeY));
 
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         cells = new Cell[sizeY][sizeX];
 
-        initializeCells();
+        maxCellId = 0;
+        for (int i = 0; i < sizeY; i++) {
+            for (int j = 0; j < sizeX; j++) {
+                cells[i][j] = new Cell();
+            }
+        }
     }
 
 
@@ -40,15 +45,6 @@ public class Space {
         }
     }
 
-
-    private void initializeCells() {
-        maxCellId = 0;
-        for (int i = 0; i < sizeY; i++) {
-            for (int j = 0; j < sizeX; j++) {
-                cells[i][j] = new Cell();
-            }
-        }
-    }
 
 
     public int getSizeX() {

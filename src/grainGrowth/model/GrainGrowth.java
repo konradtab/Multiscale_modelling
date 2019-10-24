@@ -93,7 +93,6 @@ public class GrainGrowth {
         }
     }
 
-
     public Space getSpace() {
         return space;
     }
