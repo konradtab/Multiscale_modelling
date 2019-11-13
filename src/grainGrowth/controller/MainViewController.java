@@ -1,7 +1,9 @@
 package grainGrowth.controller;
 
 import grainGrowth.model.GrainGrowth;
+import grainGrowth.model.ShapeControlGrainGrowth;
 import grainGrowth.model.core.*;
+import javafx.collections.FXCollections;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -43,6 +45,8 @@ public class MainViewController implements Initializable {
     @FXML
     private Button growthButton;
     @FXML
+    private Button addInclusionsButton;
+    @FXML
     private MenuBar menuBar;
     @FXML
     private TextField inclusionTextField;
@@ -50,6 +54,10 @@ public class MainViewController implements Initializable {
     private TextField inclusionSizeTextField;
     @FXML
     private ComboBox<InclusionType> inclusionTypeComboBox;
+    @FXML
+    private Button shapeControlGrainGrowth;
+    @FXML
+    private TextField probabilityTextField;
 
     private final int cellSize = 2;
     private int xSize;
@@ -60,7 +68,6 @@ public class MainViewController implements Initializable {
     private FileChooser fileChooser;
     private int inclusionsNumber;
     private int inclusionSize;
-    private InclusionType inclusionType;
 
     public void initializeEmptySpace() {
         xSize = Integer.parseInt(xSizeTextField.getText());
@@ -78,7 +85,9 @@ public class MainViewController implements Initializable {
     public void addInclusions(){
         inclusionsNumber = Integer.parseInt(inclusionTextField.getText());
         inclusionSize = Integer.parseInt(inclusionSizeTextField.getText());
-        inclusionType = inclusionTypeComboBox.getValue();
+        InclusionsGenerator.TYPE = inclusionTypeComboBox.getValue();
+        NucleonsGenerator.putInclusionsRandomly(inclusionsNumber, inclusionSize, space);
+        draw();
     }
 
     public void addGrains() {
@@ -96,8 +105,24 @@ public class MainViewController implements Initializable {
     }
 
 
+    public void performShapeControlGrainGrowth(){
+        disableNodes();
+        double probability = (Double.parseDouble(probabilityTextField.getText()) / 100.0);
+        GrainGrowth grainGrowth = new ShapeControlGrainGrowth(space, probability);
+        grainGrowth.simulateGrainGrowth();
+        draw();
+    }
+
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        addInclusionsButton.setDisable(false);
+
+        inclusionTypeComboBox.setItems(FXCollections.observableArrayList(InclusionType.values()));
+        inclusionTypeComboBox.getSelectionModel().selectFirst();
+
+        colorById.put(-1, Color.BLACK);
+
         fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("txt", "*.txt"),
@@ -110,6 +135,15 @@ public class MainViewController implements Initializable {
 
         xSizeTextField.setText(String.valueOf(xSize));
         ySizeTextField.setText(String.valueOf(ySize));
+
+        probabilityTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                if (!xSizeTextField.getText().matches("[1-9][0-9]{0,2}|100")) {
+                    xSizeTextField.setText(String.valueOf(xSize));
+                }
+            }
+        });
+
 
         xSizeTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
@@ -131,6 +165,14 @@ public class MainViewController implements Initializable {
 
         nucleonsNumber = 200;
         nucleonsNumberTextField.setText(String.valueOf(nucleonsNumber));
+
+        inclusionsNumber = 50;
+        inclusionTextField.setText(String.valueOf(inclusionsNumber));
+
+        inclusionSize = 5;
+        inclusionSizeTextField.setText(String.valueOf(inclusionSize));
+
+        probabilityTextField.setText("50");
 
         nucleonsNumberTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
@@ -178,6 +220,7 @@ public class MainViewController implements Initializable {
         addGrainsButton.setDisable(true);
         growthButton.setDisable(true);
         menuBar.setDisable(true);
+        shapeControlGrainGrowth.setDisable(true);
     }
 
 
@@ -189,6 +232,7 @@ public class MainViewController implements Initializable {
         addGrainsButton.setDisable(false);
         growthButton.setDisable(false);
         menuBar.setDisable(false);
+        shapeControlGrainGrowth.setDisable(false);
     }
 
 

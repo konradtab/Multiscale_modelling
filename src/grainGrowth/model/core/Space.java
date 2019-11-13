@@ -9,25 +9,20 @@ public class Space {
     private final int sizeX;
     private final int sizeY;
 
-    private int maxCellId;
-
+    private BoundaryCondition boundaryCondition;
     private MooreNeighbourhood mooreNeighbourHood;
     private Cell[][] cells;
 
 
     public Space(int sizeX, int sizeY) {
-        mooreNeighbourHood = new MooreNeighbourhood(new BoundaryCondition(sizeX, sizeY));
+        boundaryCondition = new BoundaryCondition(sizeX, sizeY);
+        mooreNeighbourHood = new MooreNeighbourhood(boundaryCondition);
 
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         cells = new Cell[sizeY][sizeX];
 
-        maxCellId = 0;
-        for (int i = 0; i < sizeY; i++) {
-            for (int j = 0; j < sizeX; j++) {
-                cells[i][j] = new Cell();
-            }
-        }
+        initializeCells();
     }
 
 
@@ -35,7 +30,7 @@ public class Space {
         sizeX = otherSpace.getSizeX();
         sizeY = otherSpace.getSizeY();
         cells = new Cell[sizeY][sizeX];
-        maxCellId = otherSpace.getMaxCellId();
+        boundaryCondition = otherSpace.getBoundaryCondition();
         mooreNeighbourHood = otherSpace.getMooreNeighbourHood();
         for (int i = 0; i < sizeY; i++) {
             for (int j = 0; j < sizeX; j++) {
@@ -45,6 +40,14 @@ public class Space {
         }
     }
 
+
+    private void initializeCells() {
+        for (int i = 0; i < sizeY; i++) {
+            for (int j = 0; j < sizeX; j++) {
+                cells[i][j] = new Cell();
+            }
+        }
+    }
 
 
     public int getSizeX() {
@@ -62,13 +65,17 @@ public class Space {
     }
 
 
-    int getMaxCellId() {
-        return maxCellId;
-    }
-
-
-    public void setMaxCellId(int maxCellId) {
-        this.maxCellId = maxCellId;
+    public int determineMaxCellId() {
+        int maxCellsId = 0;
+        for (int i = 0; i < sizeY; i++) {
+            for (int j = 0; j < sizeX; j++) {
+                int id = cells[i][j].getId();
+                if (id > maxCellsId) {
+                    maxCellsId = id;
+                }
+            }
+        }
+        return maxCellsId;
     }
 
 
@@ -84,8 +91,23 @@ public class Space {
     }
 
 
+    public List<Cell> getNeighboursCells(List<Coords> neighboursCoords) {
+        List<Cell> neighbours = new LinkedList<>();
+
+        for (Coords c : neighboursCoords) {
+            neighbours.add(getCell(c));
+        }
+        return neighbours;
+    }
+
+
     public Cell getCell(Coords coords) {
         return cells[coords.getY()][coords.getX()];
+    }
+
+
+    public BoundaryCondition getBoundaryCondition() {
+        return boundaryCondition;
     }
 
 

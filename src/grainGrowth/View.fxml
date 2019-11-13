@@ -37,6 +37,54 @@
                   </MenuBar>
             </children>
          </VBox>
+         <Label text="Space and grains section">
+            <padding>
+               <Insets bottom="5.0" left="5.0" />
+            </padding>
+         </Label>
+            <HBox prefHeight="11.0" prefWidth="200.0">
+                <Label alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="49.0" text="X: ">
+               <HBox.margin>
+                  <Insets top="2.0" />
+               </HBox.margin></Label>
+                <TextField prefHeight="26.0" prefWidth="100.0" fx:id="xSizeTextField" />
+                <Label alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="65.0" text="Y: ">
+               <HBox.margin>
+                  <Insets top="2.0" />
+               </HBox.margin></Label>
+                <TextField fx:id="ySizeTextField" prefHeight="26.0" prefWidth="100.0" />
+            </HBox>
+            <Button fx:id="initializeButton" mnemonicParsing="false" onAction="#initializeEmptySpace" prefHeight="31.0" prefWidth="224.0" text="Change size/clear">
+                <VBox.margin>
+                    <Insets left="5.0" right="5.0" top="5.0" />
+                </VBox.margin>
+            </Button>
+         <HBox prefHeight="23.0" prefWidth="200.0">
+            <children>
+                  <Label alignment="CENTER" prefHeight="18.0" prefWidth="111.0" text="Number of grains" />
+                  <TextField fx:id="nucleonsNumberTextField" alignment="CENTER" prefHeight="25.0" prefWidth="67.0" />
+            </children>
+            <VBox.margin>
+               <Insets top="5.0" />
+            </VBox.margin>
+         </HBox>
+         <HBox prefHeight="31.0" prefWidth="200.0">
+            <children>
+                  <Button fx:id="addGrainsButton" mnemonicParsing="false" onAction="#addGrains" prefHeight="26.0" prefWidth="282.0" text="Add grains">
+                  <HBox.margin>
+                     <Insets left="5.0" right="5.0" />
+                  </HBox.margin>
+                  </Button>
+            </children>
+            <VBox.margin>
+               <Insets bottom="5.0" top="5.0" />
+            </VBox.margin>
+         </HBox>
+         <Label text="Inclusion section">
+            <padding>
+               <Insets bottom="5.0" left="5.0" top="15.0" />
+            </padding>
+         </Label>
          <HBox prefHeight="21.0" prefWidth="200.0">
             <children>
                <Label text="Number of inclusions">
@@ -81,54 +129,39 @@
                <Insets top="5.0" />
             </VBox.margin>
          </HBox>
-         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="142.0" text="Add inclusions">
+         <Button fx:id="addInclusionsButton" mnemonicParsing="false" onAction="#addInclusions" prefHeight="25.0" prefWidth="142.0" text="Add inclusions">
             <VBox.margin>
-               <Insets bottom="5.0" top="5.0" />
+               <Insets bottom="5.0" left="5.0" top="5.0" />
             </VBox.margin>
          </Button>
-            <HBox prefHeight="11.0" prefWidth="200.0">
-                <Label alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="49.0" text="X: ">
-               <HBox.margin>
-                  <Insets top="2.0" />
-               </HBox.margin></Label>
-                <TextField prefHeight="26.0" prefWidth="100.0" fx:id="xSizeTextField" />
-                <Label alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="65.0" text="Y: ">
-               <HBox.margin>
-                  <Insets top="2.0" />
-               </HBox.margin></Label>
-                <TextField fx:id="ySizeTextField" prefHeight="26.0" prefWidth="100.0" />
-            </HBox>
-            <Button fx:id="initializeButton" mnemonicParsing="false" onAction="#initializeEmptySpace" prefHeight="31.0" prefWidth="224.0" text="Change size/clear">
-                <VBox.margin>
-                    <Insets top="5.0" />
-                </VBox.margin>
+         <Label text="Grain Growth">
+            <padding>
+               <Insets left="5.0" top="15.0" />
+            </padding>
+         </Label>
+            <Button fx:id="growthButton" mnemonicParsing="false" onAction="#performGrainGrowth" prefHeight="26.0" prefWidth="288.0" text="Simple Grain Growth">
+            <VBox.margin>
+               <Insets left="5.0" right="5.0" top="5.0" />
+            </VBox.margin>
             </Button>
-         <HBox prefHeight="23.0" prefWidth="200.0">
+         <HBox prefHeight="100.0" prefWidth="200.0">
             <children>
-                  <Label alignment="CENTER" prefHeight="18.0" prefWidth="111.0" text="Number of grains" />
-                  <TextField fx:id="nucleonsNumberTextField" alignment="CENTER" prefHeight="25.0" prefWidth="67.0" />
+               <Label text="Probability [%]">
+                  <HBox.margin>
+                     <Insets left="5.0" right="5.0" top="2.0" />
+                  </HBox.margin>
+               </Label>
+               <TextField fx:id="probabilityTextField" prefHeight="25.0" prefWidth="66.0" />
             </children>
             <VBox.margin>
                <Insets top="5.0" />
             </VBox.margin>
          </HBox>
-         <HBox prefHeight="31.0" prefWidth="200.0">
-            <children>
-                  <Button fx:id="addGrainsButton" mnemonicParsing="false" onAction="#addGrains" prefHeight="26.0" prefWidth="282.0" text="Add grains">
-                  <HBox.margin>
-                     <Insets right="5.0" />
-                  </HBox.margin>
-                  </Button>
-                  <Button fx:id="growthButton" mnemonicParsing="false" onAction="#performGrainGrowth" prefHeight="26.0" prefWidth="288.0" text="Growth">
-                  <HBox.margin>
-                     <Insets left="5.0" />
-                  </HBox.margin>
-                  </Button>
-            </children>
+         <Button fx:id="shapeControlGrainGrowth" mnemonicParsing="false" onAction="#performShapeControlGrainGrowth" prefHeight="25.0" prefWidth="216.0" text="Shape control grain growth">
             <VBox.margin>
-               <Insets bottom="5.0" top="5.0" />
+               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </VBox.margin>
-         </HBox>
+         </Button>
         </VBox>
     </HBox>
 </AnchorPane>

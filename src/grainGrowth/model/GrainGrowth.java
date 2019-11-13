@@ -11,10 +11,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class GrainGrowth {
 
-    private Space space;
-    private Space nextIterationSpace;
+    protected Space space;
+    protected Space nextIterationSpace;
 
-    private boolean changed;
+    protected boolean changed;
 
 
     public GrainGrowth(Space space) {
@@ -31,35 +31,45 @@ public class GrainGrowth {
     }
 
 
-    public void performIteration() {
+    protected void performIteration() {
         changed = false;
         Coords coords = new Coords(0, 0);
         for (int i = 0; i < space.getSizeY(); i++) {
             coords.setY(i);
             for (int j = 0; j < space.getSizeX(); j++) {
                 coords.setX(j);
-                Cell oldCell = space.getCells()[i][j];
+                Cell oldCell = space.getCell(coords);
 
                 if (oldCell.getId() == 0) {
-                    List<Cell> neighbours = space.findNeighbours(coords);
-                    int newId = getMostFrequentId(neighbours);
-                    if (newId != 0) {
-                        nextIterationSpace.getCells()[i][j].setId(newId);
-                        changed = true;
-                    }
+                    performGrowthIfPossible(coords);
                 }
             }
         }
         updateSpace();
     }
 
+    protected void performGrowthIfPossible(Coords coords) {
+        List<Cell> neighbours = space.findNeighbours(coords);
+        int newId = getMostFrequentId(neighbours);
+        setNewIdIfDifferentThanZero(coords, newId);
+    }
 
-    private int getMostFrequentId(List<Cell> neighbours) {
+    protected boolean setNewIdIfDifferentThanZero(Coords coords, int newId) {
+        if (newId != 0) {
+            nextIterationSpace.getCell(coords).setId(newId);
+            changed = true;
+            return true;
+        }
+        return false;
+    }
+
+
+    protected int getMostFrequentId(List<Cell> neighbours) {
         HashMap<Integer, Integer> amountByGrainId = new HashMap<>();
 
         for (Cell cell : neighbours) {
             int id = cell.getId();
-            if (id == 0) {
+            if (id == 0 || id == -1) {
                 continue;
             }
             if (amountByGrainId.containsKey(id)) {
@@ -83,7 +93,7 @@ public class GrainGrowth {
     }
 
 
-    private void updateSpace() {
+    protected void updateSpace() {
         for (int i = 0; i < space.getSizeY(); i++) {
             for (int j = 0; j < space.getSizeX(); j++) {
                 Cell currentCell = space.getCells()[i][j];
