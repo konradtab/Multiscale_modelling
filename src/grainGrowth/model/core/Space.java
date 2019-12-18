@@ -1,7 +1,9 @@
 package grainGrowth.model.core;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 
 public class Space {
@@ -9,18 +11,18 @@ public class Space {
     private final int sizeX;
     private final int sizeY;
 
-    private BoundaryCondition boundaryCondition;
+    private AbsorbentBoundaryCondition boundaryCondition;
     private MooreNeighbourhood mooreNeighbourHood;
-    private Cell[][] cells;
+    private Map<Coords, Cell> cellsByCoords;
 
 
     public Space(int sizeX, int sizeY) {
-        boundaryCondition = new BoundaryCondition(sizeX, sizeY);
+        boundaryCondition = new AbsorbentBoundaryCondition(sizeX, sizeY);
         mooreNeighbourHood = new MooreNeighbourhood(boundaryCondition);
 
         this.sizeX = sizeX;
         this.sizeY = sizeY;
-        cells = new Cell[sizeY][sizeX];
+        cellsByCoords = new HashMap<>();
 
         initializeCells();
     }
@@ -29,22 +31,23 @@ public class Space {
     public Space(Space otherSpace) {
         sizeX = otherSpace.getSizeX();
         sizeY = otherSpace.getSizeY();
-        cells = new Cell[sizeY][sizeX];
+        cellsByCoords = new HashMap<>();
         boundaryCondition = otherSpace.getBoundaryCondition();
         mooreNeighbourHood = otherSpace.getMooreNeighbourHood();
-        for (int i = 0; i < sizeY; i++) {
-            for (int j = 0; j < sizeX; j++) {
-                cells[i][j] = new Cell();
-                cells[i][j].copyPropertiesFromOtherCell(otherSpace.getCells()[i][j]);
-            }
-        }
+
+        otherSpace.cellsByCoords.forEach((coords, cell) -> {
+            Cell newCell = new Cell();
+            newCell.copyPropertiesFromOtherCell(cell);
+            cellsByCoords.put(coords, newCell);
+        });
+
     }
 
 
     private void initializeCells() {
         for (int i = 0; i < sizeY; i++) {
             for (int j = 0; j < sizeX; j++) {
-                cells[i][j] = new Cell();
+                cellsByCoords.put(Coords.coords(j, i), new Cell());
             }
         }
     }
@@ -60,19 +63,35 @@ public class Space {
     }
 
 
-    public Cell[][] getCells() {
-        return cells;
+    public Map<Coords, Cell> getCellsByCoords() {
+        return cellsByCoords;
     }
 
 
-    public int determineMaxCellId() {
-        int maxCellsId = 0;
-        for (int i = 0; i < sizeY; i++) {
-            for (int j = 0; j < sizeX; j++) {
-                int id = cells[i][j].getId();
-                if (id > maxCellsId) {
-                    maxCellsId = id;
+    public void determineBorderCells() {
+        cellsByCoords.forEach((coords, cell) -> {
+            for (Coords neighbourCoords : mooreNeighbourHood.findNeighboursCoords(coords)) {
+                Cell neighbour = getCell(neighbourCoords);
+                if (cell.getId() != neighbour.getId()) {
+                    neighbour.setGrainBoundary(true);
+                    cell.setGrainBoundary(true);
                 }
+            }
+        });
+    }
+
+
+    public void resetBorderProperty() {
+        cellsByCoords.values().forEach(cell -> cell.setGrainBoundary(false));
+    }
+
+
+    public int findMaxCellId() {
+        int maxCellsId = 0;
+        for (Cell cell : cellsByCoords.values()) {
+            int id = cell.getId();
+            if (id > maxCellsId) {
+                maxCellsId = id;
             }
         }
         return maxCellsId;
@@ -80,20 +99,12 @@ public class Space {
 
 
     public List<Cell> findNeighbours(Coords coords) {
-        List<Coords> neighboursCoords = mooreNeighbourHood.findNeighboursCoords(coords);
-        List<Cell> neighbours = new LinkedList<>();
-
-        for (Coords c : neighboursCoords) {
-            neighbours.add(getCell(c));
-        }
-
-        return neighbours;
+        return getNeighboursCells(mooreNeighbourHood.findNeighboursCoords(coords));
     }
 
 
     public List<Cell> getNeighboursCells(List<Coords> neighboursCoords) {
         List<Cell> neighbours = new LinkedList<>();
-
         for (Coords c : neighboursCoords) {
             neighbours.add(getCell(c));
         }
@@ -102,22 +113,17 @@ public class Space {
 
 
     public Cell getCell(Coords coords) {
-        return cells[coords.getY()][coords.getX()];
+        return cellsByCoords.get(coords);
     }
 
 
-    public BoundaryCondition getBoundaryCondition() {
+    public AbsorbentBoundaryCondition getBoundaryCondition() {
         return boundaryCondition;
     }
 
 
     public MooreNeighbourhood getMooreNeighbourHood() {
         return mooreNeighbourHood;
-    }
-
-
-    public void setMooreNeighbourHood(MooreNeighbourhood mooreNeighbourHood) {
-        this.mooreNeighbourHood = mooreNeighbourHood;
     }
 
 }

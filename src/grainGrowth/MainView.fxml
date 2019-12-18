@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1275.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="grainGrowth.controller.MainViewController">
+    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <MenuBar fx:id="menuBar">
+            <Menu mnemonicParsing="false" text="File">
+                <MenuItem mnemonicParsing="false" onAction="#loadSpace" text="Load File..." />
+                <MenuItem mnemonicParsing="false" onAction="#saveSpace" text="Save As..." />
+            </Menu>
+        </MenuBar>
+        <HBox prefHeight="692.0" prefWidth="1275.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox HBox.hgrow="ALWAYS">
+                <ScrollPane VBox.vgrow="ALWAYS">
+               <content>
+                  <Canvas fx:id="canvas" height="600.0" width="306.0" />
+               </content>
+                </ScrollPane>
+            </VBox>
+         <ScrollPane prefHeight="776.0" prefWidth="227.0">
+           <content>
+             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="682.0" prefWidth="213.0">
+                  <children>
+                              <VBox>
+                                  <HBox>
+                                     <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="72.0" text="Space Size:" textAlignment="CENTER" />
+                                      <Label minWidth="20.0" text="X: " />
+                                      <TextField prefHeight="25.0" prefWidth="42.0" fx:id="xSizeTextField" />
+                                      <Label minWidth="20.0" text="Y: " />
+                                      <TextField fx:id="ySizeTextField" prefHeight="25.0" prefWidth="39.0" />
+                                  </HBox>
+                                  <Button fx:id="initializeButton" mnemonicParsing="false" onAction="#initializeEmptySpace" prefWidth="210.0" text="Initialize Empty Space">
+                                      <VBox.margin>
+                                          <Insets />
+                                      </VBox.margin>
+                                  </Button>
+                                  <Label alignment="CENTER" prefWidth="200.0" text="Inclusions" />
+                                  <HBox>
+                                      <Label alignment="CENTER_RIGHT" minWidth="54.0" prefHeight="17.0" prefWidth="54.0" text="Number: " />
+                                      <TextField fx:id="inclusionsNumberTextField" alignment="CENTER" prefHeight="25.0" prefWidth="46.0" />
+                                      <Label alignment="CENTER_RIGHT" minWidth="36.0" prefHeight="17.0" prefWidth="36.0" text="Size: " />
+                                      <TextField fx:id="inclusionSizeTextField" alignment="CENTER" prefHeight="25.0" prefWidth="57.0" />
+                                  </HBox>
+                                  <ComboBox fx:id="inclusionTypeComboBox" prefWidth="210.0" />
+                                  <Button fx:id="generateInclusionsButton" mnemonicParsing="false" onAction="#generateInclusions" prefWidth="210.0" text="Generate">
+                                      <VBox.margin>
+                                          <Insets top="5.0" />
+                                      </VBox.margin>
+                                  </Button>
+                              </VBox>
+                              <VBox layoutY="147.0" prefHeight="144.0" prefWidth="210.0">
+                                  <Label fx:id="numberOfNucleonsLabel" alignment="CENTER" text="Number of Nucleons" />
+                                  <TextField fx:id="nucleonsNumberTextField" alignment="CENTER" />
+                                  <Button fx:id="generateNucleonsButton" mnemonicParsing="false" onAction="#generateNucleons" prefWidth="210.0" text="Generate">
+                                      <VBox.margin>
+                                          <Insets top="5.0" />
+                                      </VBox.margin>
+                                  </Button>
+                              </VBox>
+                              <VBox layoutY="220.0" prefHeight="243.0" prefWidth="211.0">
+                                  <Label alignment="CENTER" text="Simulation Type" />
+                                  <ComboBox fx:id="simulationTypeComboBox" prefWidth="210.0" />
+                                  <VBox>
+                                      <HBox>
+                                          <Label fx:id="iterationsLabel" minWidth="100.0" text="Iterations: " />
+                                          <TextField fx:id="iterationsTextField" text="20" />
+                                      </HBox>
+                                      <HBox>
+                                          <Label fx:id="gbEnergyLabel" minWidth="100.0" text="GB Energy [J]: " />
+                                          <TextField fx:id="gbEnergyTextField" text="0.5" />
+                                      </HBox>
+                           <HBox prefHeight="0.0" prefWidth="211.0">
+                              <children>
+                                           <Label fx:id="probabilityTitleLabel" alignment="CENTER" prefHeight="17.0" prefWidth="101.0" text="Probability [%]" />
+                                 <TextField fx:id="probabilityTextField" prefHeight="25.0" prefWidth="114.0" text="50" />
+                              </children>
+                           </HBox>
+                                  </VBox>
+                                  <Button fx:id="performGrainGrowthButton" mnemonicParsing="false" onAction="#performGrainGrowth" prefHeight="7.0" prefWidth="210.0" text="Perform Simulation">
+                                      <VBox.margin>
+                                          <Insets top="10.0" />
+                                      </VBox.margin>
+                                  </Button>
+                              </VBox>
+                              <VBox layoutY="375.0" prefHeight="217.0" prefWidth="295.0">
+                                  <HBox />
+                                  <Label alignment="CENTER" prefHeight="27.0" prefWidth="77.0" text="Structure Type" />
+                                  <ComboBox fx:id="structureTypeComboBox" prefWidth="210.0" />
+                                  <Button fx:id="lockSelectedGrainsButton" mnemonicParsing="false" onAction="#lockStructures" prefWidth="210.0" text="Lock Structures">
+                                      <VBox.margin>
+                                          <Insets bottom="10.0" top="10.0" />
+                                      </VBox.margin>
+                                  </Button>
+                                  <HBox>
+                                      <Label alignment="CENTER_RIGHT" minWidth="70.0" text="GB Size: " />
+                                      <TextField fx:id="gbSizeTextField" prefHeight="25.0" prefWidth="138.0" />
+                                      <VBox.margin>
+                                          <Insets left="2.0" right="4.0" />
+                                      </VBox.margin>
+                                  </HBox>
+
+                                  <Button fx:id="generateGrainBoundariesButton" mnemonicParsing="false" onAction="#generateGrainBoundaries" prefWidth="210.0" text="Generate grain boundaries" />
+                                  <HBox>
+                                      <Button fx:id="clearGrainsButton" mnemonicParsing="false" onAction="#clearGrains" prefHeight="25.0" prefWidth="107.0" text="Clear Grains" />
+                                      <Label fx:id="gbPercentageLabel" minWidth="70.0">
+                                          <HBox.margin>
+                                              <Insets left="15.0" top="5.0" />
+                                          </HBox.margin>
+                                      </Label>
+                                  </HBox>
+                              </VBox>
+                              <VBox layoutY="549.0" prefHeight="78.0" prefWidth="210.0">
+                                  <Label alignment="CENTER" prefWidth="210.0" text="Energy Distribution" />
+                                  <ComboBox fx:id="energyDistributionComboBox" prefHeight="12.0" prefWidth="210.0">
+                                      <VBox.margin>
+                                          <Insets />
+                                      </VBox.margin>
+                                  </ComboBox>
+                                  <HBox>
+                                      <VBox.margin>
+                                          <Insets />
+                                      </VBox.margin>
+                                      <Label fx:id="energyInsideLabel" prefHeight="18.0" prefWidth="200.0" text="Energy Inside" />
+                                      <TextField fx:id="energyInsideTextField" />
+                                  </HBox>
+                              </VBox>
+                              <HBox layoutY="619.0" prefHeight="35.0" prefWidth="211.0">
+                                  <Label fx:id="energyOnEdgesLabel" prefHeight="18.0" prefWidth="200.0" text="Energy on edges" />
+                                  <TextField fx:id="energyOnEdgesTextField" />
+                              </HBox>
+                              <HBox layoutY="647.0" prefHeight="25.0" prefWidth="211.0">
+                                  <Button fx:id="distributeEnergyButton" mnemonicParsing="false" onAction="#distributeEnergy" prefHeight="26.0" prefWidth="115.0" text="Distribute">
+                                      <HBox.margin>
+                                          <Insets right="5.0" />
+                                      </HBox.margin>
+                                  </Button>
+                                  <Button fx:id="toggleEnergyButton" mnemonicParsing="false" onAction="#toggleEnergyDistribution" prefHeight="26.0" prefWidth="115.0" text="Show">
+                                      <HBox.margin>
+                                          <Insets left="5.0" />
+                                      </HBox.margin>
+                                  </Button>
+                              </HBox>
+                  </children>
+               </AnchorPane>
+           </content>
+         </ScrollPane>
+        </HBox>
+    </VBox>
+</AnchorPane>

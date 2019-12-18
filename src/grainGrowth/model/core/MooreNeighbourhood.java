@@ -3,15 +3,31 @@ package grainGrowth.model.core;
 import java.util.LinkedList;
 import java.util.List;
 
+import static grainGrowth.model.core.Coords.coords;
+
 
 public class MooreNeighbourhood {
 
-    private BoundaryCondition boundaryCondition;
+    private AbsorbentBoundaryCondition boundaryCondition;
 
 
-    public MooreNeighbourhood(BoundaryCondition boundaryCondition) {
+    public MooreNeighbourhood(AbsorbentBoundaryCondition boundaryCondition) {
         this.boundaryCondition = boundaryCondition;
     }
+
+
+    public List<Coords> findNeighboursCoords(Coords coords) {
+        List<Coords> neighboursCoords = new LinkedList<>();
+        addNearestNeighboursCoords(coords, neighboursCoords);
+        addFurtherNeighboursCoords(coords, neighboursCoords);
+
+        for (Coords c : neighboursCoords) {
+            boundaryCondition.correctCoordsIfNeeded(c);
+        }
+
+        return neighboursCoords;
+    }
+
 
     public List<Coords> findNearestNeighboursCoords(Coords coords) {
         List<Coords> neighboursCoords = new LinkedList<>();
@@ -24,15 +40,16 @@ public class MooreNeighbourhood {
         int x = coords.getX();
         int y = coords.getY();
 
-        neighboursCoords.add(new Coords(x, y - 1));
-        neighboursCoords.add(new Coords(x - 1, y));
-        neighboursCoords.add(new Coords(x + 1, y));
-        neighboursCoords.add(new Coords(x, y + 1));
+        neighboursCoords.add(coords(x, y - 1));
+        neighboursCoords.add(coords(x - 1, y));
+        neighboursCoords.add(coords(x + 1, y));
+        neighboursCoords.add(coords(x, y + 1));
 
         for (Coords c : neighboursCoords) {
             boundaryCondition.correctCoordsIfNeeded(c);
         }
     }
+
 
     public List<Coords> findFurtherNeighboursCoords(Coords coords) {
         List<Coords> neighboursCoords = new LinkedList<>();
@@ -46,37 +63,14 @@ public class MooreNeighbourhood {
         int x = coords.getX();
         int y = coords.getY();
 
-        neighboursCoords.add(new Coords(x - 1, y - 1));
-        neighboursCoords.add(new Coords(x + 1, y - 1));
-        neighboursCoords.add(new Coords(x - 1, y + 1));
-        neighboursCoords.add(new Coords(x + 1, y + 1));
+        neighboursCoords.add(coords(x - 1, y - 1));
+        neighboursCoords.add(coords(x + 1, y - 1));
+        neighboursCoords.add(coords(x - 1, y + 1));
+        neighboursCoords.add(coords(x + 1, y + 1));
 
         for (Coords c : neighboursCoords) {
             boundaryCondition.correctCoordsIfNeeded(c);
         }
-    }
-
-
-    public List<Coords> findNeighboursCoords(Coords coords) {
-        int x = coords.getX();
-        int y = coords.getY();
-
-        List<Coords> neighboursCoords = new LinkedList<>();
-
-        neighboursCoords.add(new Coords(x - 1, y - 1));
-        neighboursCoords.add(new Coords(x, y - 1));
-        neighboursCoords.add(new Coords(x + 1, y - 1));
-        neighboursCoords.add(new Coords(x - 1, y));
-        neighboursCoords.add(new Coords(x + 1, y));
-        neighboursCoords.add(new Coords(x - 1, y + 1));
-        neighboursCoords.add(new Coords(x, y + 1));
-        neighboursCoords.add(new Coords(x + 1, y + 1));
-
-        for (Coords c : neighboursCoords) {
-            boundaryCondition.correctCoordsIfNeeded(c);
-        }
-
-        return neighboursCoords;
     }
 
 }
